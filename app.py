@@ -218,18 +218,18 @@ if train_button and uploaded_file is not None:
             X = df.drop('smoking', axis=1)
             y = df['smoking']
 
-            scaler = joblib.load('models/scaler.pkl')
+            scaler = joblib.load('model/scaler.pkl')
             
             
             X_processed, _ = preprocess_data(X, scaler, fit=False)
 
             models_info = [
-                ("Logistic Regression", "models/logistic_regression_model.pkl"),
-                ("Decision Tree", "models/decision_tree_model.pkl"),
-                ("K-Nearest Neighbors", "models/knn_model.pkl"),
-                ("Gaussian Naive Bayes", "models/gaussian_nb_model.pkl"),
-                ("Random Forest", "models/random_forest_model.pkl"),
-                ("XGBoost", "models/xgboost_model.pkl")
+                ("Logistic Regression", "model/logistic_regression_model.pkl"),
+                ("Decision Tree", "model/decision_tree_model.pkl"),
+                ("K-Nearest Neighbors", "model/knn_model.pkl"),
+                ("Gaussian Naive Bayes", "model/gaussian_nb_model.pkl"),
+                ("Random Forest", "model/random_forest_model.pkl"),
+                ("XGBoost", "model/xgboost_model.pkl")
             ]
             
             # Store metrics and confusion matrices
