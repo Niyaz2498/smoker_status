@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+import requests
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, roc_auc_score, precision_score, recall_score, f1_score, matthews_corrcoef, confusion_matrix
 import plotly.figure_factory as ff
@@ -147,7 +148,66 @@ with col1:
 with col2:
     st.write("")
     st.write("")
-    train_button = st.button("Train Models", type="primary", use_container_width=True)
+    train_button = st.button("Run Inference", type="primary", use_container_width=True)
+
+# Download sample dataset section
+st.markdown("""
+<style>
+.download-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.download-text {
+    color: white;
+    font-size: 16px;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+.download-btn {
+    display: inline-block;
+    background-color: white;
+    color: #667eea;
+    padding: 10px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 2px solid white;
+    cursor: pointer;
+}
+.download-btn:hover {
+    background-color: #667eea;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+</style>
+<div class="download-container">
+    <div class="download-text">Don't have a dataset? Download a sample one:</div>
+</div>
+""", unsafe_allow_html=True)
+
+try:
+    @st.cache_data
+    def fetch_sample_dataset():
+        url = "https://raw.githubusercontent.com/Niyaz2498/smoker_status/main/dataset/visualization_dataset.csv"
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.content
+    
+    csv_data = fetch_sample_dataset()
+    st.download_button(
+        label="⬇️ Download Sample CSV",
+        data=csv_data,
+        file_name="visualization_dataset.csv",
+        mime="text/csv",
+        use_container_width=True
+    )
+except Exception as e:
+    st.error(f"Error loading sample dataset: {str(e)}")
 
 st.markdown("---")
 
@@ -208,7 +268,7 @@ if train_button and uploaded_file is not None:
 st.header("Section 2: Model Performance")
 
 if not st.session_state.trained:
-    st.info("No data found. Please upload a dataset and click 'Train Models' to view results.")
+    st.info("No data found. Please upload a dataset and click 'Run Inference' to view results.")
 else:
     # Model selection dropdown
     model_names = list(st.session_state.metrics_data.keys())
