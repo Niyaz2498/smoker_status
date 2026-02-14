@@ -319,22 +319,6 @@ else:
         
         
         st.table(metrics_df)
-        
-
-        st.markdown("### Key Metrics")
-        metric_cols = st.columns(3)
-        
-        with metric_cols[0]:
-            if metrics['Accuracy'] is not None:
-                st.metric("Accuracy", f"{metrics['Accuracy']:.4f}")
-        
-        with metric_cols[1]:
-            if metrics['F1 Score'] is not None:
-                st.metric("F1 Score", f"{metrics['F1 Score']:.4f}")
-        
-        with metric_cols[2]:
-            if metrics['AUC Score'] is not None:
-                st.metric("AUC Score", f"{metrics['AUC Score']:.4f}")
     
     # Right column: Confusion Matrix
     with col2:
